@@ -1,23 +1,36 @@
 import {
+  Button,
+  Center,
+  Heading,
+  HStack,
+  Icon,
+  IconButton,
   Input,
+  Link,
   Radio,
   RadioGroup,
   Select,
+  SimpleGrid,
   Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { ANIMATION, Animations } from "@/constants/animation";
 import { FONT, Fonts } from "@/constants/font";
 import { html_beautify, css_beautify } from "js-beautify";
+import useDebounceState from "@/hooks/debounce";
+import { FaGithub } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Home() {
-  const [color, setColor] = useState("#ff6e5c");
-  const [donatorColor, setDonatorColor] = useState("#ffffff");
-  const [amountColor, setAmountColor] = useState("#ffffff");
-  const [customTextColor, setCustomTextColor] = useState("#333333");
-  const [messageColor, setMessageColor] = useState("#333333");
+  const [color, setColor] = useDebounceState("#ff6e5c");
+  const [donatorColor, setDonatorColor] = useDebounceState("#ffffff");
+  const [amountColor, setAmountColor] = useDebounceState("#ffffff");
+  const [customTextColor, setCustomTextColor] = useDebounceState("#333333");
+  const [messageColor, setMessageColor] = useDebounceState("#333333");
   const [customText, setCustomText] = useState("mendukung Pa Dhika sejumlah");
   const [animation, setAnimation] = useState<Animations>();
   const [font, setFont] = useState<Fonts>();
@@ -178,7 +191,35 @@ ${(animation && ANIMATION[animation]) || ""}
   const html = code.split("<style>")[0];
   const css = code.split("<style>")[1].split("</style>")[0];
   return (
-    <Stack spacing={4}>
+    <Stack spacing={8}>
+      <HStack pt={8} justifyContent="space-between">
+        <Stack spacing={0}>
+          <Heading>SAWERLAY</Heading>
+          <Text fontWeight="semibold" fontSize="16px">
+            Saweria Overlay
+          </Text>
+        </Stack>
+        <HStack>
+          <Link as={NextLink} href="https://saweria.co/kikiding" isExternal>
+            <Button
+              rightIcon={
+                <Image
+                  alt="saweria"
+                  src="/capy_happy.svg"
+                  width={24}
+                  height={24}
+                />
+              }
+            >
+              Sawer yang buat
+            </Button>
+          </Link>
+          <Link textAlign="end" as={NextLink} href="">
+            <Button rightIcon={<FaGithub />}>Kontribusi</Button>
+          </Link>
+        </HStack>
+      </HStack>
+
       <div
         dangerouslySetInnerHTML={{
           __html: code,
@@ -266,7 +307,7 @@ ${(animation && ANIMATION[animation]) || ""}
               <Text fontWeight="bold">Font :</Text>
               <Select
                 onChange={(v) => setFont(v.target.value as Fonts)}
-                value={animation}
+                value={font}
                 placeholder="Pilih Font"
               >
                 {Object.keys(FONT).map((key) => (
