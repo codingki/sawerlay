@@ -13,6 +13,8 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  useColorMode,
+  useTheme,
   VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -24,14 +26,17 @@ import { html_beautify, css_beautify } from "js-beautify";
 import useDebounceState from "@/hooks/debounce";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Home() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const [color, setColor] = useDebounceState("#ff6e5c");
   const [donatorColor, setDonatorColor] = useDebounceState("#ffffff");
   const [amountColor, setAmountColor] = useDebounceState("#ffffff");
   const [customTextColor, setCustomTextColor] = useDebounceState("#333333");
   const [messageColor, setMessageColor] = useDebounceState("#333333");
-  const [customText, setCustomText] = useState("mendukung Pa Dhika sejumlah");
+  const [customText, setCustomText] = useState("mendukung kikiding sejumlah");
   const [animation, setAnimation] = useState<Animations>();
   const [font, setFont] = useState<Fonts>();
 
@@ -214,9 +219,17 @@ ${(animation && ANIMATION[animation]) || ""}
               Sawer yang buat
             </Button>
           </Link>
-          <Link textAlign="end" as={NextLink} href="">
+          <Link
+            textAlign="end"
+            as={NextLink}
+            href="https://github.com/codingki/sawerlay"
+            isExternal
+          >
             <Button rightIcon={<FaGithub />}>Kontribusi</Button>
           </Link>
+          <IconButton onClick={toggleColorMode} aria-label="theme">
+            {colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+          </IconButton>
         </HStack>
       </HStack>
 
